@@ -108,7 +108,25 @@
         const initial = window.location.pathname
         if (initial && (initial.startsWith('/taxonomy') || initial.startsWith('/regulations') || initial.startsWith('/obligations'))){
           loadFragment(initial, false)
+        } else {
+          // ensure no pill is active on the welcome page
+          setActive('')
         }
+
+        // Expose loader globally (for debugging or inline handlers)
+        window.__loadFragment = loadFragment
+
+        // Delegate clicks as a fallback in case direct binding failed
+        document.addEventListener('click', function(e){
+          const btn = e.target.closest && e.target.closest('.pill')
+          if (!btn) return
+          if (btn.disabled) return
+          const path = btn.dataset.path || (btn.getAttribute && btn.getAttribute('href')) || null
+          if (path && path.startsWith('/')){
+            e.preventDefault()
+            loadFragment(path)
+          }
+        })
       })()
     </script>
   </body>
