@@ -42,7 +42,14 @@
 
       // Load fragments into #content and manage history
       (function (){
+        console.log('*** SCRIPT EXECUTING ***')
+        alert('JavaScript is running! Click OK to continue.')
         const content = document.getElementById('content')
+        if (!content) {
+          alert('ERROR: content element not found!')
+          return
+        }
+        console.log('Content element found:', content)
 
         async function loadFragment(path, push=true){
           console.log('loadFragment called with path:', path)
