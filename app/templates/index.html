@@ -45,22 +45,30 @@
         const content = document.getElementById('content')
 
         async function loadFragment(path, push=true){
+          console.log('loadFragment called with path:', path)
           // Show an immediate placeholder so the user sees feedback
           const name = path.replace(/\/+$/, '').split('/').filter(Boolean).pop() || 'section'
           const title = name.charAt(0).toUpperCase() + name.slice(1)
+          console.log('Setting content banner for:', title)
           // show a prominent banner immediately so the user sees which menu was selected
           content.innerHTML = `<div class="content-banner content-banner--${name}"><div class="content-banner__inner"><h2>${title}</h2><p class="muted">Loading…</p></div></div>`
+          console.log('Content innerHTML set to banner')
           setActive(path)
 
           // path expected like '/taxonomy' -> fetch '/taxonomy/fragment'
           const fragUrl = path.replace(/\/$/, '') + '/fragment'
+          console.log('Fetching fragment from:', fragUrl)
           try {
             const res = await fetch(fragUrl, { headers: { 'X-Requested-With': 'fetch' } })
+            console.log('Fragment response status:', res.status, res.ok)
             if (!res.ok) throw new Error(res.statusText)
             const html = await res.text()
+            console.log('Fragment HTML received, length:', html.length)
             content.innerHTML = html
+            console.log('Content innerHTML updated with fragment')
             if (push) history.pushState({ path }, '', path)
           } catch (err) {
+            console.error('Fragment load error:', err)
             content.innerHTML = `<div class="error">Failed to load content: ${err.message}</div>`
           }
         }
@@ -68,10 +76,13 @@
         // Hook pill nav clicks
         // Handle pill clicks (buttons or anchors). Buttons use data-path.
         document.querySelectorAll('.pill-nav .pill').forEach(el => {
+          console.log('Binding click to pill:', el.textContent, el.dataset.path)
           el.addEventListener('click', function(ev){
+            console.log('Pill clicked:', el.textContent, 'disabled:', el.disabled)
             // disabled buttons should do nothing
             if (el.disabled) return
             const path = el.dataset.path || (el.getAttribute && el.getAttribute('href')) || null
+            console.log('Path extracted:', path)
             if (path && path.startsWith('/')){
               ev.preventDefault()
               loadFragment(path)
@@ -120,8 +131,10 @@
         document.addEventListener('click', function(e){
           const btn = e.target.closest && e.target.closest('.pill')
           if (!btn) return
+          console.log('Delegated click on pill:', btn.textContent)
           if (btn.disabled) return
           const path = btn.dataset.path || (btn.getAttribute && btn.getAttribute('href')) || null
+          console.log('Delegated path:', path)
           if (path && path.startsWith('/')){
             e.preventDefault()
             loadFragment(path)
