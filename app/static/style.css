@@ -5,9 +5,10 @@ pre { background: #f3f4f6; padding: .5rem; border-radius: 4px }
 
 /* Pill navigation */
 .pill-nav { display:flex; gap:0.5rem; margin:0 0 1rem 0; flex-wrap:wrap }
-.pill { display:inline-flex; align-items:center; justify-content:center; padding:0.35rem 0.9rem; border-radius:999px; color:#fff; text-decoration:none; font-weight:600; font-size:0.95rem; box-shadow: 0 4px 10px rgba(16,24,40,0.06); transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease }
+.pill { display:inline-flex; align-items:center; justify-content:center; padding:0.35rem 0.9rem; border-radius:999px; color:#fff; text-decoration:none; font-weight:600; font-size:0.95rem; box-shadow: 0 4px 10px rgba(16,24,40,0.06); transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease; border: none; cursor: pointer; }
 .pill:hover { transform:translateY(-2px); box-shadow: 0 8px 22px rgba(16,24,40,0.12) }
 .pill:active { transform:translateY(0) }
+.pill:focus { outline: 3px solid rgba(100,116,139,0.12); outline-offset: 2px }
 .pill--taxonomy { background: linear-gradient(135deg,#6c5ce7,#a29bfe) }
 .pill--regulations { background: linear-gradient(135deg,#00b894,#55efc4) }
 .pill--obligations { background: linear-gradient(135deg,#0984e3,#74b9ff) }

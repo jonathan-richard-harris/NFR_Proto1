@@ -12,12 +12,12 @@
       <p>FastAPI scaffold with a Jinja2-served frontend.</p>
 
       <nav class="pill-nav" role="navigation" aria-label="Primary">
-        <a href="/taxonomy" class="pill pill--taxonomy">Taxonomy</a>
-        <a href="/regulations" class="pill pill--regulations">Regulations</a>
-        <a href="/obligations" class="pill pill--obligations">Obligations</a>
-        <a href="#" class="pill pill--muted">4</a>
-        <a href="#" class="pill pill--muted">5</a>
-        <a href="#" class="pill pill--muted">6</a>
+        <button type="button" class="pill pill--taxonomy" data-path="/taxonomy">Taxonomy</button>
+        <button type="button" class="pill pill--regulations" data-path="/regulations">Regulations</button>
+        <button type="button" class="pill pill--obligations" data-path="/obligations">Obligations</button>
+        <button type="button" class="pill pill--muted" disabled>4</button>
+        <button type="button" class="pill pill--muted" disabled>5</button>
+        <button type="button" class="pill pill--muted" disabled>6</button>
       </nav>
 
       <section id="health">
@@ -59,12 +59,15 @@
         }
 
         // Hook pill nav clicks
-        document.querySelectorAll('.pill-nav a.pill').forEach(a => {
-          a.addEventListener('click', function(ev){
-            const href = a.getAttribute('href')
-            if (href && href.startsWith('/')){
+        // Handle pill clicks (buttons or anchors). Buttons use data-path.
+        document.querySelectorAll('.pill-nav .pill').forEach(el => {
+          el.addEventListener('click', function(ev){
+            // disabled buttons should do nothing
+            if (el.disabled) return
+            const path = el.dataset.path || (el.getAttribute && el.getAttribute('href')) || null
+            if (path && path.startsWith('/')){
               ev.preventDefault()
-              loadFragment(href)
+              loadFragment(path)
             }
           })
         })
