@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NFR Proto1</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>NFR Proto1</h1>
+      <p>FastAPI scaffold with a Jinja2-served frontend.</p>
+
+      <section id="health">
+        <strong>API status:</strong> <span id="status">checking…</span>
+      </section>
+
+      <section>
+        <h2>Items</h2>
+        <ul>
+        {% for it in items %}
+          <li>{{ it.id }} — {{ it.name }}</li>
+        {% endfor %}
+        </ul>
+      </section>
+    </div>
+
+    <script>
+      fetch('/api/health').then(r => r.json()).then(j => {
+        document.getElementById('status').textContent = j.status || JSON.stringify(j)
+      }).catch(e => {
+        document.getElementById('status').textContent = 'error'
+      })
+    </script>
+  </body>
+</html>
