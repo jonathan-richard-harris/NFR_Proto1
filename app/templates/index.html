@@ -46,9 +46,10 @@
 
         async function loadFragment(path, push=true){
           // Show an immediate placeholder so the user sees feedback
-          const name = path.replace(/\/+$/, '').split('/').filter(Boolean).pop() || 'Section'
+          const name = path.replace(/\/+$/, '').split('/').filter(Boolean).pop() || 'section'
           const title = name.charAt(0).toUpperCase() + name.slice(1)
-          content.innerHTML = `<div class="subpage"><h2>${title}</h2><p>Loading...</p></div>`
+          // show a prominent banner immediately so the user sees which menu was selected
+          content.innerHTML = `<div class="content-banner content-banner--${name}"><div class="content-banner__inner"><h2>${title}</h2><p class="muted">Loading…</p></div></div>`
           setActive(path)
 
           // path expected like '/taxonomy' -> fetch '/taxonomy/fragment'
@@ -78,12 +79,17 @@
           })
         })
 
-        // Toggle active pill
+        // Toggle active pill and set aria state
         function setActive(path){
           document.querySelectorAll('.pill-nav .pill').forEach(el => {
             const p = el.dataset.path || (el.getAttribute && el.getAttribute('href')) || ''
-            if (p === path) el.classList.add('pill--active')
-            else el.classList.remove('pill--active')
+            if (p === path) {
+              el.classList.add('pill--active')
+              el.setAttribute('aria-pressed', 'true')
+            } else {
+              el.classList.remove('pill--active')
+              el.setAttribute('aria-pressed', 'false')
+            }
           })
         }
 

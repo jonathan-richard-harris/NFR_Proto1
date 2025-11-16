@@ -15,6 +15,16 @@ pre { background: #f3f4f6; padding: .5rem; border-radius: 4px }
 .pill--active.pill--taxonomy { border: 2px solid rgba(124,58,237,0.12) }
 .pill--active.pill--regulations { border: 2px solid rgba(0,200,140,0.08) }
 .pill--active.pill--obligations { border: 2px solid rgba(8,132,227,0.08) }
+
+/* Prominent content banner used while loading a fragment */
+.content-banner { border-radius: 8px; padding: 1rem; color: #fff; margin-bottom: 0.5rem }
+.content-banner__inner { max-width: 900px }
+.content-banner h2 { margin: 0 0 .25rem 0; font-size: 1.45rem }
+.content-banner .muted { opacity: 0.95 }
+.content-banner--taxonomy { background: linear-gradient(90deg,#6c5ce7,#a29bfe) }
+.content-banner--regulations { background: linear-gradient(90deg,#00b894,#55efc4) color: #042 }
+.content-banner--obligations { background: linear-gradient(90deg,#0984e3,#74b9ff) }
+.content-banner--section { background: linear-gradient(90deg,#636e72,#8392a5) }
 .pill--taxonomy { background: linear-gradient(135deg,#6c5ce7,#a29bfe) }
 .pill--regulations { background: linear-gradient(135deg,#00b894,#55efc4) }
 .pill--obligations { background: linear-gradient(135deg,#0984e3,#74b9ff) }
