@@ -12,3 +12,9 @@ pre { background: #f3f4f6; padding: .5rem; border-radius: 4px }
 .pill--regulations { background: linear-gradient(135deg,#00b894,#55efc4) }
 .pill--obligations { background: linear-gradient(135deg,#0984e3,#74b9ff) }
 .pill--muted { background:#636e72 }
+
+/* Content subwindow */
+#content { margin-top: 1rem; padding: 1rem; border-radius: 8px; background: #fcfdff; min-height: 160px; box-shadow: 0 6px 18px rgba(20,20,40,0.04) }
+.subpage h2 { margin-top: 0 }
+.welcome { color: #333 }
+.error { color: #a33; background:#ffecec; padding:0.5rem; border-radius:6px }

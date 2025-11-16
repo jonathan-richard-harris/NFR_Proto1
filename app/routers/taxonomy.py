@@ -10,3 +10,9 @@ templates = Jinja2Templates(directory="app/templates")
 async def taxonomy_page(request: Request):
     """Render a page showing the taxonomy selection."""
     return templates.TemplateResponse("taxonomy.html", {"request": request, "selected": "Taxonomy"})
+
+
+@router.get("/fragment", response_class=HTMLResponse)
+async def taxonomy_fragment(request: Request):
+    """Return just the inner fragment for loading into the main page."""
+    return templates.TemplateResponse("fragments/taxonomy_fragment.html", {"request": request, "selected": "Taxonomy"})

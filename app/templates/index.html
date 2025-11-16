@@ -24,22 +24,68 @@
         <strong>API status:</strong> <span id="status">checking…</span>
       </section>
 
-      <section>
-        <h2>Items</h2>
-        <ul>
-        {% for it in items %}
-          <li>{{ it.id }} — {{ it.name }}</li>
-        {% endfor %}
-        </ul>
-      </section>
+      <main id="content">
+        <div class="welcome">
+          <h2>Welcome</h2>
+          <p>Select a section from the navigation above. Content will load here.</p>
+        </div>
+      </main>
     </div>
 
     <script>
+      // Health check
       fetch('/api/health').then(r => r.json()).then(j => {
         document.getElementById('status').textContent = j.status || JSON.stringify(j)
       }).catch(e => {
         document.getElementById('status').textContent = 'error'
       })
+
+      // Load fragments into #content and manage history
+      (function (){
+        const content = document.getElementById('content')
+
+        async function loadFragment(path, push=true){
+          // path expected like '/taxonomy' -> fetch '/taxonomy/fragment'
+          const fragUrl = path.replace(/\/$/, '') + '/fragment'
+          try {
+            const res = await fetch(fragUrl, { headers: { 'X-Requested-With': 'fetch' } })
+            if (!res.ok) throw new Error(res.statusText)
+            const html = await res.text()
+            content.innerHTML = html
+            if (push) history.pushState({ path }, '', path)
+          } catch (err) {
+            content.innerHTML = `<div class="error">Failed to load content: ${err.message}</div>`
+          }
+        }
+
+        // Hook pill nav clicks
+        document.querySelectorAll('.pill-nav a.pill').forEach(a => {
+          a.addEventListener('click', function(ev){
+            const href = a.getAttribute('href')
+            if (href && href.startsWith('/')){
+              ev.preventDefault()
+              loadFragment(href)
+            }
+          })
+        })
+
+        // Handle browser navigation
+        window.addEventListener('popstate', (ev) => {
+          const path = (ev.state && ev.state.path) || window.location.pathname
+          if (path && (path.startsWith('/taxonomy') || path.startsWith('/regulations') || path.startsWith('/obligations'))) {
+            loadFragment(path, false)
+          } else {
+            // load default welcome
+            content.innerHTML = `<div class="welcome"><h2>Welcome</h2><p>Select a section from the navigation above. Content will load here.</p></div>`
+          }
+        })
+
+        // Optionally load initial fragment if landing on one of the routes
+        const initial = window.location.pathname
+        if (initial && (initial.startsWith('/taxonomy') || initial.startsWith('/regulations') || initial.startsWith('/obligations'))){
+          loadFragment(initial, false)
+        }
+      })()
     </script>
   </body>
 </html>
