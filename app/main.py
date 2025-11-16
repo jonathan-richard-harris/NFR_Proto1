@@ -12,6 +12,13 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 templates = Jinja2Templates(directory="app/templates")
 
+# Include feature routers
+from app.routers import taxonomy, regulations, obligations
+
+app.include_router(taxonomy.router, prefix="/taxonomy", tags=["taxonomy"])
+app.include_router(regulations.router, prefix="/regulations", tags=["regulations"])
+app.include_router(obligations.router, prefix="/obligations", tags=["obligations"])
+
 
 class Item(BaseModel):
     id: int
@@ -42,3 +49,8 @@ async def list_items():
 async def create_item(item: Item):
     _items.append(item)
     return item
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="127.0.0.1", port=8000)
