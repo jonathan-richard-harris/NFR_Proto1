@@ -9,6 +9,12 @@ pre { background: #f3f4f6; padding: .5rem; border-radius: 4px }
 .pill:hover { transform:translateY(-2px); box-shadow: 0 8px 22px rgba(16,24,40,0.12) }
 .pill:active { transform:translateY(0) }
 .pill:focus { outline: 3px solid rgba(100,116,139,0.12); outline-offset: 2px }
+
+/* Active pill */
+.pill--active { box-shadow: 0 10px 26px rgba(16,24,40,0.14); transform: translateY(-3px); opacity: 1 }
+.pill--active.pill--taxonomy { border: 2px solid rgba(124,58,237,0.12) }
+.pill--active.pill--regulations { border: 2px solid rgba(0,200,140,0.08) }
+.pill--active.pill--obligations { border: 2px solid rgba(8,132,227,0.08) }
 .pill--taxonomy { background: linear-gradient(135deg,#6c5ce7,#a29bfe) }
 .pill--regulations { background: linear-gradient(135deg,#00b894,#55efc4) }
 .pill--obligations { background: linear-gradient(135deg,#0984e3,#74b9ff) }

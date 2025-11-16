@@ -45,6 +45,12 @@
         const content = document.getElementById('content')
 
         async function loadFragment(path, push=true){
+          // Show an immediate placeholder so the user sees feedback
+          const name = path.replace(/\/+$/, '').split('/').filter(Boolean).pop() || 'Section'
+          const title = name.charAt(0).toUpperCase() + name.slice(1)
+          content.innerHTML = `<div class="subpage"><h2>${title}</h2><p>Loading...</p></div>`
+          setActive(path)
+
           // path expected like '/taxonomy' -> fetch '/taxonomy/fragment'
           const fragUrl = path.replace(/\/$/, '') + '/fragment'
           try {
@@ -71,6 +77,15 @@
             }
           })
         })
+
+        // Toggle active pill
+        function setActive(path){
+          document.querySelectorAll('.pill-nav .pill').forEach(el => {
+            const p = el.dataset.path || (el.getAttribute && el.getAttribute('href')) || ''
+            if (p === path) el.classList.add('pill--active')
+            else el.classList.remove('pill--active')
+          })
+        }
 
         // Handle browser navigation
         window.addEventListener('popstate', (ev) => {
