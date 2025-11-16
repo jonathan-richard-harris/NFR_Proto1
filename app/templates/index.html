@@ -42,14 +42,14 @@
 
       // Load fragments into #content and manage history
       (function (){
-        console.log('*** SCRIPT EXECUTING ***')
-        alert('JavaScript is running! Click OK to continue.')
         const content = document.getElementById('content')
         if (!content) {
-          alert('ERROR: content element not found!')
+          document.body.innerHTML += '<div style="position:fixed;top:0;left:0;background:red;color:white;padding:1rem;z-index:9999">ERROR: content not found</div>'
           return
         }
-        console.log('Content element found:', content)
+        
+        // Immediate visual test - change welcome message
+        content.innerHTML = '<div class="welcome" style="border: 3px solid green; padding: 1rem;"><h2>✅ JavaScript IS Working!</h2><p>Click a pill button above to load content.</p></div>'
 
         async function loadFragment(path, push=true){
           console.log('loadFragment called with path:', path)
